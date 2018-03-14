@@ -28,6 +28,9 @@
         <constructor-arg ref="ds" />
     </bean>
     
-    <context:component-scan base-package="id.artivisi.belajar.ioc.dao"/>
+    <!-- otomatis menginstankan class yang dipasangi annotation
+    @Component, @Service, @Repository, @Controller
+    -->
+    <context:component-scan base-package="id.artivisi.belajar.ioc"/>
 
 </beans>

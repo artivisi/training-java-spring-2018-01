@@ -7,9 +7,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class IocDenganSpring {
     public static void main(String[] args) {
-        ApplicationContext ac = new ClassPathXmlApplicationContext("belajar-ioc.xml");
+        ApplicationContext ac 
+                = new ClassPathXmlApplicationContext("belajar-ioc.xml");
         // BasicDataSource ds = ac.getBean(BasicDataSource.class);
         BasicDataSource ds = (BasicDataSource) ac.getBean("ds");
         ProdukController pc = ac.getBean(ProdukController.class);
+        // tanpa component, pc == null
+        // tanpa autowired, pc ada, ds null
     }
 }

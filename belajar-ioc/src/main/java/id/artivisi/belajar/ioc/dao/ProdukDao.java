@@ -2,13 +2,12 @@ package id.artivisi.belajar.ioc.dao;
 
 import java.util.List;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProdukDao {
     
     private DataSource dataSource;
 
-    public ProdukDao(@Autowired DataSource dataSource) {
+    public ProdukDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
     
