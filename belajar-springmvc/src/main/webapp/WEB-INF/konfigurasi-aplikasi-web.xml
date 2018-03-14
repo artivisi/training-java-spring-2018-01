@@ -9,4 +9,11 @@
 
     <context:component-scan base-package="id.artivisi.belajar.springmvc"/>
 
+    <bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost/belajar"/>
+        <property name="username" value="belajar"/>
+        <property name="password" value="java"/>
+    </bean>
+    
 </beans>
