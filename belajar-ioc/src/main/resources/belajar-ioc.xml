@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- sama saja dengan kode java berikut
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("org.postgresql.Driver");
+        ds.setUrl("jdbc:postgresql://localhost/belajar");
+        ds.setUsername("belajar");
+        ds.setPassword("java");
+    -->
+    <bean id="ds" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost/belajar"/>
+        <property name="username" value="belajar"/>
+        <property name="password" value="java"/>
+    </bean>
+    
+    <!-- sama dengan kode java berikut
+    ProdukDao produkDao = new ProdukDao(ds);
+    -->
+    <bean id="pd" class="id.artivisi.belajar.ioc.dao.ProdukDao">
+        <constructor-arg ref="ds" />
+    </bean>
+    
+    <context:component-scan base-package="id.artivisi.belajar.ioc.dao"/>
+
+</beans>

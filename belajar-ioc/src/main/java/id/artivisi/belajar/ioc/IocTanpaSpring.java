@@ -1,7 +1,8 @@
 package id.artivisi.belajar.ioc;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
+import id.artivisi.belajar.ioc.dao.PembeliDao;
+import id.artivisi.belajar.ioc.dao.PesananDao;
+import id.artivisi.belajar.ioc.dao.ProdukDao;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class IocTanpaSpring {
@@ -12,13 +13,8 @@ public class IocTanpaSpring {
         ds.setUsername("belajar");
         ds.setPassword("java");
         
-        Connection dbConn = ds.getConnection();
-        String sql = "select * from produk";
-        ResultSet rs = dbConn.createStatement().executeQuery(sql);
-        while(rs.next()){
-            System.out.println("Kode Produk : "+rs.getString("kode"));
-        }
-        rs.close();
-        dbConn.close();
+        ProdukDao produkDao = new ProdukDao(ds);
+        PesananDao pesananDao = new PesananDao(ds);
+        PembeliDao pembeliDao = new PembeliDao(ds);
     }
 }
