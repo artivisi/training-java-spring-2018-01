@@ -39,4 +39,8 @@ public class ProdukDaoHibernate {
                 .setParameter("cari", cari)
                 .getResultList();
     }
+
+    public void hapus(Produk p) {
+        sessionFactory.getCurrentSession().delete(p);
+    }
 }

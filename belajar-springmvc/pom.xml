@@ -48,6 +48,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.2.15.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>3.0.9.RELEASE</version>
+        </dependency>
     </dependencies>
     
     <build>

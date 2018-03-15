@@ -19,25 +19,33 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
 @Configuration
 @ComponentScan(basePackages = "id.artivisi.belajar.springmvc")
 @EnableTransactionManagement
 @EnableWebMvc
 public class KonfigurasiAplikasi implements WebMvcConfigurer {
-    
-    @Autowired @Qualifier("produkDaoAsli") private ProdukDao produkDao;
-    @Autowired private QueryLogAdvice queryLogAdvice;
-    @Autowired private MethodDurationAdvice methodDurationAdvice;
-    
+
+    @Autowired
+    @Qualifier("produkDaoAsli")
+    private ProdukDao produkDao;
+    @Autowired
+    private QueryLogAdvice queryLogAdvice;
+    @Autowired
+    private MethodDurationAdvice methodDurationAdvice;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
-            .addResourceLocations("/public", "classpath:/static/");
+                .addResourceLocations("/public", "classpath:/static/");
     }
-    
+
     @Bean
-    public DataSource inisialisasiDatasource(){
+    public DataSource inisialisasiDatasource() {
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.postgresql.Driver");
         ds.setUrl("jdbc:postgresql://localhost/belajar");
@@ -45,17 +53,17 @@ public class KonfigurasiAplikasi implements WebMvcConfigurer {
         ds.setPassword("java");
         return ds;
     }
-    
+
     @Bean("produkDao")
-    public ProdukDao proxyAop(){
+    public ProdukDao proxyAop() {
         ProxyFactory proxy = new ProxyFactory(produkDao);
         proxy.addAdvice(queryLogAdvice);
         proxy.addAdvice(methodDurationAdvice);
         return (ProdukDao) proxy.getProxy();
     }
-    
+
     @Bean
-    public LocalSessionFactoryBean inisialisasiHibernate(){
+    public LocalSessionFactoryBean inisialisasiHibernate() {
         LocalSessionFactoryBean lsfb
                 = new LocalSessionFactoryBean();
         lsfb.setPackagesToScan("id.artivisi.belajar.springmvc.domain");
@@ -63,12 +71,12 @@ public class KonfigurasiAplikasi implements WebMvcConfigurer {
         lsfb.setHibernateProperties(hibernateProperties());
         return lsfb;
     }
-    
+
     @Bean
-    public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory){
+    public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
         return new HibernateTransactionManager(sessionFactory);
     }
-    
+
     private Properties hibernateProperties() {
         return new Properties() {
             {
@@ -79,5 +87,30 @@ public class KonfigurasiAplikasi implements WebMvcConfigurer {
             }
         };
     }
+
+    @Bean
+    public SpringResourceTemplateResolver templateResolver() {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCacheable(true);
+        return templateResolver;
+    }
+
+    @Bean
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setEnableSpringELCompiler(true);
+        return templateEngine;
+    }
     
+    @Bean
+    public ThymeleafViewResolver viewResolver(){
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        return viewResolver;
+    }
+
 }

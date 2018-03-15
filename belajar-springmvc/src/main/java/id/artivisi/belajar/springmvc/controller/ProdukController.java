@@ -9,6 +9,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,18 +23,9 @@ public class ProdukController {
     @Autowired ProdukDaoHibernate produkDao;
     
     @GetMapping("/produk/list")
-    public void halo(@RequestParam(required = false)String cari,
+    public ModelMap halo(@RequestParam(required = false)String cari,
             @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer rows,
-            HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        PrintWriter output = response.getWriter();
-        output.println("<html><head><title>Data Produk</title></head>");
-        output.println("<body>");
-        output.println("<h1>Data Produk</h1>");
-        
-        output.println("<table>");
-        output.println("<tr><th>Id</th><th>Kode</th><th>Nama</th><th>Harga</th></tr>");
+            @RequestParam(required = false) Integer rows) throws IOException {
         
         if(page == null) {
             page = 0;
@@ -52,19 +44,9 @@ public class ProdukController {
             dataProduk.addAll(produkDao.semuaProduk(startRow, rows));
         }
         
-        for(Produk p : dataProduk) {
-            output.println("<tr>");
-            output.println("<td>"+p.getId()+"</td>");
-            output.println("<td>"+p.getKode()+"</td>");
-            output.println("<td>"+p.getNama()+"</td>");
-            output.println("<td>"+p.getHarga()+"</td>");
-            output.println("</tr>");
-        }   
-        
-        output.println("</table>");
-        
-        output.println("</body>");
-        output.println("</html>");
+        ModelMap data = new ModelMap();
+        data.addAttribute("dataProduk", dataProduk);
+        return data;
     }
     
     @PostMapping("/produk/form")
@@ -73,6 +55,16 @@ public class ProdukController {
         System.out.println("Nama : "+p.getNama());
         System.out.println("Harga : "+p.getHarga());
         produkDao.simpan(p);
+        return "redirect:list";
+    }
+    
+    @GetMapping("/produk/delete")
+    public String hapus(@RequestParam Integer id){
+        Produk p = produkDao.cariById(id);
+        if(p != null){
+            produkDao.hapus(p);
+        }
+        
         return "redirect:list";
     }
 }
