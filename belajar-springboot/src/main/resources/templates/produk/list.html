@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
     <head>
         <title>Data Produk</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Data Produk</h1>
-        
-        <table border="1" width="80">
-            <thead>
-                <tr>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Harga</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="p : ${dataProduk}">
-                    <td th:text="${p.kode}">P-001</td>
-                    <td th:text="${p.nama}">Produk 001</td>
-                    <td th:text="${p.harga}">10000</td>
-                    <td>
-                        <a th:href="@{/produk/form(id=${p.id})}">edit</a> |
-                        <a th:href="@{/produk/delete(id=${p.id})}">hapus</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <section layout:fragment="content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2">Data Produk</h1>
+            </div>
 
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                        <th>Harga</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p : ${dataProduk}">
+                        <td th:text="${p.kode}">P-001</td>
+                        <td th:text="${p.nama}">Produk 001</td>
+                        <td th:text="${p.harga}">10000</td>
+                        <td>
+                            <a th:href="@{/produk/form(id=${p.id})}">edit</a> |
+                            <a th:href="@{/produk/delete(id=${p.id})}">hapus</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     </body>
 </html>
