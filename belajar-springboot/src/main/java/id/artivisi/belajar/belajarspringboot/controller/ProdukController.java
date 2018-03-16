@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.support.SessionStatus;
 
 @Controller
 public class ProdukController {
@@ -69,8 +72,14 @@ public class ProdukController {
     }
     
     @PostMapping("/produk/form")
-    public String prosesForm(@ModelAttribute Produk p){
+    public String prosesForm(@ModelAttribute @Valid Produk p, BindingResult errors, SessionStatus status){
+        
+        if(errors.hasErrors()) {
+            return "produk/form";
+        }
+        
         produkDao.save(p);
+        status.setComplete();
         return "redirect:list";
     }
 }

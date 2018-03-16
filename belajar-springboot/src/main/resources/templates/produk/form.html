@@ -18,25 +18,43 @@
                 <div class="form-group row">
                     <label for="kode" class="col-sm-2 col-form-label">Kode :</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="kode" 
+                        <input type="text" class="form-control" 
+                               th:errorclass="is-invalid"
+                               id="kode" 
                                th:field="*{kode}"
                                placeholder="Kode Produk">
+                        <div class="invalid-feedback">
+                            <p th:if="${#fields.hasErrors('kode')}" 
+                               th:errors="*{kode}">Pesan error kode</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="nama" class="col-sm-2 col-form-label">Nama :</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="nama" 
+                        <input type="text" class="form-control" 
+                               th:errorclass="is-invalid"
+                               id="nama" 
                                th:field="*{nama}"
                                placeholder="Nama Produk">
+                        <div class="invalid-feedback">
+                            <p th:if="${#fields.hasErrors('nama')}" 
+                               th:errors="*{nama}">Pesan error nama</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="harga" class="col-sm-2 col-form-label">Harga :</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="harga" 
+                        <input type="text" class="form-control" 
+                               th:errorclass="is-invalid"
+                               id="harga" 
                                th:field="*{harga}"
                                placeholder="Harga Produk">
+                        <div class="invalid-feedback">
+                            <p th:if="${#fields.hasErrors('harga')}" 
+                               th:errors="*{harga}">Pesan error harga</p>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
