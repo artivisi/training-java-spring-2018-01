@@ -5,6 +5,7 @@ import id.artivisi.belajar.belajarspringboot.domain.Produk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,5 +52,25 @@ public class ProdukController {
         }
         
         return data;
+    }
+    
+    @GetMapping("/produk/form")
+    public ModelMap tampilkanForm(@RequestParam(name = "id", required = false) Integer produkId ){
+        Produk produk = new Produk();
+        if(produkId != null) {
+            Optional<Produk> p = produkDao.findById(produkId);
+            if(p.isPresent()){
+                produk = p.get();
+            }
+        }
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("produk", produk);
+        return mm;
+    }
+    
+    @PostMapping("/produk/form")
+    public String prosesForm(@ModelAttribute Produk p){
+        produkDao.save(p);
+        return "redirect:list";
     }
 }
