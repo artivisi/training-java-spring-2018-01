@@ -58,7 +58,7 @@ public class ProdukController {
     }
     
     @GetMapping("/produk/form")
-    public ModelMap tampilkanForm(@RequestParam(name = "id", required = false) Integer produkId ){
+    public ModelMap tampilkanForm(@RequestParam(name = "id", required = false) String produkId ){
         Produk produk = new Produk();
         if(produkId != null) {
             Optional<Produk> p = produkDao.findById(produkId);

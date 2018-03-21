@@ -3,20 +3,21 @@ package id.artivisi.belajar.belajarspringboot.domain;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity
 public class Produk {
     
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Id @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
     
     @NotNull @NotEmpty @Size(min = 3, max = 10)
     private String kode;

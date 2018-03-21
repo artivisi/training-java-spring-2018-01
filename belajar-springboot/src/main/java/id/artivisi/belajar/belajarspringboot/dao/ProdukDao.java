@@ -5,6 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ProdukDao extends PagingAndSortingRepository<Produk, Integer> {
+public interface ProdukDao extends PagingAndSortingRepository<Produk, String> {
     Page<Produk> findByKodeContainingIgnoreCaseOrNamaContainingIgnoreCase(String kode, String nama, Pageable page);
 }
