@@ -13,8 +13,9 @@
                 <h1 class="h2">Data Produk</h1>
             </div>
 
-            <a th:href="@{/produk/form}" class="btn btn-primary">Tambah Produk</a>
-            
+            <div sec:authorize="hasAuthority('EDIT_PRODUCT')">
+                <a th:href="@{/produk/form}" class="btn btn-primary">Tambah Produk</a>
+            </div>
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -30,8 +31,10 @@
                         <td th:text="${p.nama}">Produk 001</td>
                         <td th:text="${p.harga}">10000</td>
                         <td>
-                            <a th:href="@{/produk/form(id=${p.id})}">edit</a> |
-                            <a th:href="@{/produk/delete(id=${p.id})}">hapus</a>
+                            <div sec:authorize="hasAuthority('EDIT_PRODUCT')">
+                                <a th:href="@{/produk/form(id=${p.id})}">edit</a> |
+                                <a th:href="@{/produk/delete(id=${p.id})}">hapus</a>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
