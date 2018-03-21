@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -41,6 +42,7 @@ public class ProdukController {
         produkDao.save(p);
     }
     
+    @PreAuthorize("hasAuthority('VIEW_PRODUCT')")
     @GetMapping("/produk/list")
     public ModelMap halo(@RequestParam(required = false)String cari,
             @PageableDefault(sort = {"kode"}) Pageable page) throws IOException {
@@ -57,6 +59,7 @@ public class ProdukController {
         return data;
     }
     
+    @PreAuthorize("hasAuthority('EDIT_PRODUCT')")
     @GetMapping("/produk/form")
     public ModelMap tampilkanForm(@RequestParam(name = "id", required = false) String produkId ){
         Produk produk = new Produk();
@@ -71,6 +74,7 @@ public class ProdukController {
         return mm;
     }
     
+    @PreAuthorize("hasAuthority('EDIT_PRODUCT')")
     @PostMapping("/produk/form")
     public String prosesForm(@ModelAttribute @Valid Produk p, BindingResult errors, SessionStatus status){
         
