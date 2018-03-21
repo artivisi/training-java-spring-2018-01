@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -28,4 +29,7 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "id_permission")
     )
     private Set<Permission> permissions = new HashSet<>();
+    
+    @OneToMany(mappedBy = "role")
+    private Set<User> users = new HashSet<>();
 }
