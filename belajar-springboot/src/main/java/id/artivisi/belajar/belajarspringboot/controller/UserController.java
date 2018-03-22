@@ -49,7 +49,7 @@ public class UserController {
     }
     
     @PostMapping("/form")
-    public String prosesForm(@ModelAttribute @Valid UserForm userForm, BindingResult err, SessionStatus status){
+    public String prosesForm(@ModelAttribute(name = "userform") @Valid UserForm userForm, BindingResult err, SessionStatus status){
         
         if(err.hasErrors()){
             return "user/form";
