@@ -7,10 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity @Table(name = "s_user")
+@EqualsAndHashCode(of = "username")
 public class User {
     
     @Id @GeneratedValue(generator = "uuid")

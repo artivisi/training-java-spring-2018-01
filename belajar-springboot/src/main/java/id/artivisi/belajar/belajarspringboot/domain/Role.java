@@ -11,9 +11,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data @Entity @Table(name = "s_role")
+@EqualsAndHashCode(of = "name")
 public class Role {
     
     @Id @GeneratedValue(generator = "uuid")
@@ -29,7 +31,4 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "id_permission")
     )
     private Set<Permission> permissions = new HashSet<>();
-    
-    @OneToMany(mappedBy = "role")
-    private Set<User> users = new HashSet<>();
 }

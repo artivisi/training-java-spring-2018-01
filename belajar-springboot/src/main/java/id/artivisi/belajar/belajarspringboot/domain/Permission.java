@@ -5,9 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data @Entity @Table(name = "s_permission")
+@EqualsAndHashCode(of = "name")
 public class Permission {
     
     @Id @GeneratedValue(generator = "uuid")
