@@ -3,8 +3,6 @@ package id.artivisi.belajar.belajarspringboot.controller;
 import id.artivisi.belajar.belajarspringboot.dao.ProdukDao;
 import id.artivisi.belajar.belajarspringboot.domain.Produk;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
