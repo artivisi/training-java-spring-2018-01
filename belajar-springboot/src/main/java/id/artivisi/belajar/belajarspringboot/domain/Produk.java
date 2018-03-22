@@ -29,4 +29,6 @@ public class Produk {
     
     @Min(0)
     private BigDecimal harga;
+    
+    private String foto;
 }

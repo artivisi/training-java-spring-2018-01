@@ -13,7 +13,7 @@
                 <h1 class="h2" th:text="#{produk.list.title}">Input Produk</h1>
             </div>
 
-            <form method="post" th:action="@{/produk/form}" th:object="${produk}">
+            <form method="post" th:action="@{/produk/form}" th:object="${produk}" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{id}" />
                 <div class="form-group row">
                     <label for="kode" class="col-sm-2 col-form-label">Kode :</label>
@@ -55,6 +55,16 @@
                             <p th:if="${#fields.hasErrors('harga')}" 
                                th:errors="*{harga}">Pesan error harga</p>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="fileFoto" class="col-sm-2 col-form-label">Foto :</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" 
+                               name="fileFoto"
+                               id="fileFoto" 
+                               placeholder="Foto Produk">
                     </div>
                 </div>
                 <div class="form-group row">
