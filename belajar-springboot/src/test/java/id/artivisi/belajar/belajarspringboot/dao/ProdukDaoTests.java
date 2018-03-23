@@ -1,6 +1,10 @@
 package id.artivisi.belajar.belajarspringboot.dao;
 
+import com.querydsl.core.types.Predicate;
 import id.artivisi.belajar.belajarspringboot.domain.Produk;
+import id.artivisi.belajar.belajarspringboot.dto.KriteriaPencarian;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,19 @@ public class ProdukDaoTests {
         System.out.println("==== Cari by nama ====");
         Iterable <Produk> hasilCariByNama = produkDao.findAll(Example.of(contoh2, matcher));
         tampilkanProduk(hasilCariByNama);
+    }
+    
+    @Test
+    public void testQueryDsl(){
+        List<KriteriaPencarian> daftarKriteria = new ArrayList<KriteriaPencarian>();
+        daftarKriteria.add(new KriteriaPencarian("kode", ":", "P-999"));
+        daftarKriteria.add(new KriteriaPencarian("nama", "~", "duk 9"));
+        daftarKriteria.add(new KriteriaPencarian("harga", "<", "1000000.00"));
+        
+        Predicate pred = new ProdukPredicateBuilder(daftarKriteria).build();
+        
+        Iterable<Produk> hasil = produkDao.findAll(pred);
+        tampilkanProduk(hasil);
     }
 
     private void tampilkanProduk(Iterable<Produk> hasilCari) {
