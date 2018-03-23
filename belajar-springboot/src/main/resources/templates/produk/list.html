@@ -12,38 +12,68 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
                 <h1 class="h2">Data Produk</h1>
             </div>
-            
+
             <div class="row">
-                <form th:action="@{/produk/list}" method="get">
-                    <div class="form-group row">
-                    <label for="kode" class="col-sm-2 col-form-label">Kode :</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" 
-                               id="kode" 
-                               name="kode" 
-                               placeholder="Kode Produk">
-                    </div>
+                <div class="col">
+                    <form th:action="@{/produk/list}" method="get">
+                        <div class="form-group row">
+                            <label for="kode" class="col-sm-2 col-form-label">Kode :</label>
+                            <div class="col-sm-2">
+                                <select name="kodeOperator" class="form-control">
+                                    <option value="contains">Contains</option>
+                                    <option value="contains">Equals</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" 
+                                       id="kode" 
+                                       name="kode" 
+                                       placeholder="Kode Produk">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama" class="col-sm-2 col-form-label">Nama :</label>
+                            <div class="col-sm-2">
+                                <select name="namaOperator" class="form-control">
+                                    <option value="contains">Contains</option>
+                                    <option value="contains">Equals</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" 
+                                       id="nama" 
+                                       name="nama" 
+                                       placeholder="Nama Produk">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="harga" class="col-sm-2 col-form-label">Harga :</label>
+                            <div class="col-sm-2">
+                                <select name="hargaOperator" class="form-control">
+                                    <option value="lt">kurang dari</option>
+                                    <option value="gt">lebih dari</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" 
+                                       id="harga" 
+                                       name="harga" 
+                                       placeholder="Harga Produk">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Cari</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group row">
-                    <label for="nama" class="col-sm-2 col-form-label">Nama :</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" 
-                               id="nama" 
-                               name="nama" 
-                               placeholder="Nama Produk">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-primary">Cari</button>
-                    </div>
-                </div>
-                </form>
             </div>
 
             <div sec:authorize="hasAuthority('EDIT_PRODUCT')">
                 <a th:href="@{/produk/form}" class="btn btn-primary">Tambah Produk</a>
             </div>
+            <hr />
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
