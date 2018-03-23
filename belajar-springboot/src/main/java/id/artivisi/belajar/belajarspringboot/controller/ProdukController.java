@@ -15,6 +15,9 @@ import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,7 +27,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +49,11 @@ public class ProdukController {
     
     @Autowired ProdukDao produkDao;
     
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+    
     @GetMapping("/api/produk")
     @ResponseBody
     public Page<Produk> dataProduk(Pageable page){
@@ -58,10 +68,24 @@ public class ProdukController {
     
     @PreAuthorize("hasAuthority('VIEW_PRODUCT')")
     @GetMapping("/produk/list")
-    public ModelMap halo(@RequestParam(required = false)String cari,
+    public ModelMap halo(
+            @ModelAttribute Produk cariProduk,
+            @RequestParam(required = false)String cari,
             @PageableDefault(sort = {"kode"}) Pageable page) throws IOException {
        
         ModelMap data = new ModelMap();
+        
+        if(cariProduk != null){
+            LOGGER.debug("Kode : {}", cariProduk.getKode());
+            LOGGER.debug("Nama : {}", cariProduk.getNama());
+            
+            ExampleMatcher matcher = ExampleMatcher.matchingAny()
+            .withMatcher("kode", match -> match.exact())
+            .withMatcher("nama", match -> match.contains().ignoreCase());
+            
+            data.addAttribute("dataProduk", produkDao.findAll(Example.of(cariProduk, matcher), page));
+            return data;
+        }
         
         if(StringUtils.hasText(cari)){
             data.addAttribute("dataProduk", 
